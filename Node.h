@@ -2,10 +2,11 @@
 using namespace std;
 
 class Node{
-	friend class BST;
+	friend class BST; //to grant BST class the access of private functions in Node class.
 private:
-	Node* minValueNode();
-	Node* maxValueNode();
+	Node* minValueNode(); //return min node in this subtree (Node)
+	Node* maxValueNode(); //return max node in this subtree (Node)
+	Node* deleteNode(int,Node*); //delete node with key in this subtree (Node)
 public:
 	int key;
 	string data;
@@ -21,8 +22,7 @@ public:
 	void preOrder();
 	void postOrder();
 	int countNodes(); //count of nodes in the BST
-	Node* deleteNode(int,Node*);
-	int getH();
+	int getH(); //get max height of subtree (Node).
 };
 
 #include "Node.cpp"

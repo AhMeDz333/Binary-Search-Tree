@@ -49,7 +49,9 @@ int main(){
 	cout << "Num of Nodes : " << tree.countNodes() << "\n";
 	tree.displayMin();
 	tree.displayMax();
+	puts("");
 	tree.preOrder();
+	puts("");
 	tree.postOrder();
 	cout << "\ntest 7 is successful!\n\n";
 }
