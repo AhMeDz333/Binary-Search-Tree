@@ -108,7 +108,7 @@ void BST::deleteNode(int key){
 int  BST::getMaxHeight(){
 	if (root == NULL)
 		return 0;
-	return root->getH() - 1; //height = degree - 1
+	return root->getH() - 1; //height = degree - 1.
 }
 void BST::buildFromArray(int* keys,string* values,int n){
 	for (int i = 0; i < n; i++)
