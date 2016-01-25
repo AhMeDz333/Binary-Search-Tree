@@ -88,23 +88,27 @@ void BST::deleteNode(int key){
 	if (!containsKey(key))
 		throw invalid_argument("Key already isn't there!");
 
-	if (root->key == key){
-		Node tmpRoot(0,"");
+	Node* removedNode;
+	if (root->key == key){ //root needs to be deleted.
+		Node tmpRoot(0,""); //dummy root
 		tmpRoot.left = root;
-		Node* removedNode = root->deleteNode(key,&tmpRoot);
+		removedNode = root->deleteNode(key,&tmpRoot);
 		root = tmpRoot.left;
 		if (removedNode != NULL)
 			delete removedNode;
+
 	}else{
-		Node* removedNode = root->deleteNode(key,NULL);
-		if (removedNode != NULL)
-			delete removedNode;
+		removedNode = root->deleteNode(key,NULL);
 	}
+
+	//remove the returned node.
+	if (removedNode != NULL)
+		delete removedNode;
 }
 int  BST::getMaxHeight(){
 	if (root == NULL)
 		return 0;
-	return root->getH() - 1;
+	return root->getH() - 1; //height = degree - 1
 }
 void BST::buildFromArray(int* keys,string* values,int n){
 	for (int i = 0; i < n; i++)
