@@ -1,10 +1,10 @@
 #Binary Search Tree (Un-Balanced) implementation
-*#using C++
+#######using C++
 
 This code is customized to meet specifications of a Data Structure course project.
 It consists mainly of 2 classes, `BST` & `Node` each has it's `.cpp` code & `.h` header files, and then there is the `test.cpp` to provide some tests validating each method's functionality correctness.
 
-###Features :
+**Features :
 
 *Less code :
  used recursion & conditional operators whenever possible, to make the code more understandable & the amount of code less.
@@ -12,7 +12,7 @@ It consists mainly of 2 classes, `BST` & `Node` each has it's `.cpp` code & `.h`
 *Isolation :
  isolation of methods that shouldn't be directly used by the user as private methods (accessable by friend classes, however).
 
-###Utility Methods
+**Utility Methods
 
 *Constructor :
  Initializes an empty BST.
