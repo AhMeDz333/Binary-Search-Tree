@@ -2,10 +2,7 @@
 using namespace std;
 
 bool BST::containsKey(int key){
-	if (root == NULL)
-		return false;
-
-	return root->containsKey(key);
+	return root? root->containsKey(key) : 0;
 }
 string BST::lookUp(int key){
 	if (!containsKey(key))
@@ -17,7 +14,7 @@ void BST::insert(int key,string data){
 	if (containsKey(key))
 		throw invalid_argument("Key is already there!");
 
-	if (root == NULL)
+	if (!root)
 		root = new Node(key,data);
 	else
 		root->insert(key,data);
@@ -35,7 +32,7 @@ void BST::set(int key,string data){
 		insert(key,data);
 }
 void BST::inOrder(){
-	if (root == NULL){
+	if (!root){
 		cout << "BST is Empty!\n";
 		return;
 	}
@@ -46,7 +43,7 @@ void BST::inOrder(){
 	printf("]\n");
 }
 void BST::preOrder(){
-	if (root == NULL){
+	if (!root){
 		cout << "BST is Empty!\n";
 		return;
 	}
@@ -57,7 +54,7 @@ void BST::preOrder(){
 	printf("]\n");
 }
 void BST::postOrder(){
-	if (root == NULL){
+	if (!root){
 		cout << "BST is Empty!\n";
 		return;
 	}
@@ -68,47 +65,53 @@ void BST::postOrder(){
 	printf("]\n");
 }
 int  BST::countNodes(){
-	return root == NULL? 0 : root->countNodes();
+	return root? root->countNodes() : 0;
 }
 Node* BST::maxValueNode(){
-	return root == NULL? NULL : root->maxValueNode();
+	return root? root->maxValueNode() : NULL;
 }
 void BST::displayMax(){
 	Node* tmp = maxValueNode();
-	cout << "Maximum key pair : " << tmp->key << ":" << tmp->data << "\n";
+	
+	if (tmp)
+		cout << "Maximum key pair : (" << tmp->key << ":" << tmp->data << ")\n";
+	else
+		cout << "BST is Empty!\n";
 }
 Node* BST::minValueNode(){
-	return root == NULL? NULL : root->minValueNode();
+	return root? root->minValueNode() : NULL;
 }
 void BST::displayMin(){
 	Node* tmp = minValueNode();
-	cout << "Minimum key pair : " << tmp->key << ":" << tmp->data << "\n";
+
+	if (tmp)
+		cout << "Minimum key pair : (" << tmp->key << ":" << tmp->data << ")\n";
+	else
+		cout << "BST is Empty!\n";
 }
 void BST::deleteNode(int key){
 	if (!containsKey(key))
 		throw invalid_argument("Key already isn't there!");
 
 	Node* removedNode;
-	if (root->key == key){ //root needs to be deleted.
+
+	//root needs to be deleted.
+	if (root->key == key){ 
 		Node tmpRoot(0,""); //dummy root
 		tmpRoot.left = root;
 		removedNode = root->deleteNode(key,&tmpRoot);
 		root = tmpRoot.left;
-		if (removedNode != NULL)
-			delete removedNode;
 
 	}else{
 		removedNode = root->deleteNode(key,NULL);
 	}
 
 	//remove the returned node.
-	if (removedNode != NULL)
+	if (removedNode)
 		delete removedNode;
 }
 int  BST::getMaxHeight(){
-	if (root == NULL)
-		return 0;
-	return root->getH() - 1; //height = degree - 1.
+	return root? root->getH() - 1 : 0; //height = degree - 1.
 }
 void BST::buildFromArray(int* keys,string* values,int n){
 	for (int i = 0; i < n; i++)
@@ -120,7 +123,7 @@ BST::~BST(){
 }
 
 void BST::destroy(Node* node){
-	if (node == NULL)
+	if (!node)
 		return;
 
 	destroy(node->left);
