@@ -8,12 +8,12 @@ Node::Node(int key,string data){
 }
 void Node::insert(int x,string s){
 	if (x < key){
-		if (left == NULL)
+		if (!left)
 			left = new Node(x,s);
 		else
 			left->insert(x,s);
 	}else{
-		if (right == NULL)
+		if (!right)
 			right = new Node(x,s);
 		else
 			right->insert(x,s);
@@ -24,10 +24,10 @@ bool Node::containsKey(int key){
 		return true;
 
 	if (key < this->key){
-		if (left != NULL && left->containsKey(key))
+		if (left && left->containsKey(key))
 			return true;
 	}else{
-		if (right != NULL && right->containsKey(key))
+		if (right && right->containsKey(key))
 			return true;
 	}
 
@@ -38,10 +38,10 @@ string Node::lookUp(int key){
 		return data;
 
 	if (key < this->key){
-		if (left != NULL)
+		if (left)
 			return left->lookUp(key);
 	}else{
-		if (right != NULL)
+		if (right)
 			return right->lookUp(key);
 	}
 }
@@ -52,10 +52,10 @@ void Node::modify(int key,string data){
 	}
 
 	if (key < this->key){
-		if (left != NULL)
+		if (left)
 			left->modify(key,data);
 	}else{
-		if (right != NULL)
+		if (right)
 			right->modify(key,data);
 	}
 }
@@ -63,14 +63,14 @@ void Node::inOrder(){
 	char c = '"';
 
 	printf("[");
-	if (left != NULL){
+	if (left){
 		left->inOrder();
 		printf(", ");
 	}
 
 	printf("%d:%c%s%c",key,c,data.c_str(),c);
 
-	if (right != NULL){
+	if (right){
 		printf(", ");
 		right->inOrder();
 	}
@@ -82,12 +82,12 @@ void Node::preOrder(){
 	printf("[");
 	printf("%d:%c%s%c",key,c,data.c_str(),c);
 	
-	if (left != NULL){
+	if (left){
 		printf(", ");
 		left->preOrder();
 	}
 
-	if (right != NULL){
+	if (right){
 		printf(", ");
 		right->preOrder();
 	}
@@ -97,12 +97,12 @@ void Node::postOrder(){
 	char c = '"';
 
 	printf("[");
-	if (left != NULL){
+	if (left){
 		left->postOrder();
 		printf(", ");
 	}
 
-	if (right != NULL){
+	if (right){
 		right->postOrder();
 		printf(", ");
 	}
@@ -112,40 +112,28 @@ void Node::postOrder(){
 }
 int Node::countNodes(){
 	int ans = 1;
-	if (left != NULL)
+	if (left)
 		ans += left->countNodes();
-	if (right != NULL)
+	if (right)
 		ans += right->countNodes();
 	
 	return ans;
 }
 Node* Node::minValueNode(){
-	if (left == NULL)
-		return this;
-	else
-		return left->minValueNode();
+	return left? left->minValueNode() : this;
 }
 Node* Node::maxValueNode(){
-	if (right == NULL)
-		return this;
-	else
-		return right->maxValueNode();
+	return right? right->maxValueNode() : this;
 }
 Node* Node::deleteNode(int key,Node* parent){
 	if (key > this->key)
-		if (right != NULL)
-			return right->deleteNode(key,this);
-		else
-			return NULL;
+		return right? right->deleteNode(key,this) : right;
 
 	else if (key < this->key)
-		if (left != NULL)
-			left->deleteNode(key,this);
-		else
-			return NULL;
+		return left? left->deleteNode(key,this) : left;
 
 	else{ //got it
-		if (left != NULL && right != NULL){//if it has 2 children
+		if (left && right){//if it has 2 children
 			Node* tmp = right->minValueNode();
 			this->key = tmp->key;
 			this->data = tmp->data;
@@ -153,11 +141,11 @@ Node* Node::deleteNode(int key,Node* parent){
 
 		//if it has only 1 child, replace it with it.
 		} else if (parent->left == this){
-			parent->left = (left != NULL) ? left : right;
+			parent->left = (left) ? left : right;
 			return this;
 
 		}else if (parent->right == this){
-			parent->right = (left != NULL) ? left : right;
+			parent->right = (left) ? left : right;
 			return this;
 		}
 	}
@@ -165,10 +153,10 @@ Node* Node::deleteNode(int key,Node* parent){
 int Node::getH(){
 	int l = 0,r = 0;
 
-	if (left != NULL)
+	if (left)
 		l = left->getH();
 
-	if (right != NULL)
+	if (right)
 		r = right->getH();
 
 	return 1 + max(l,r);
